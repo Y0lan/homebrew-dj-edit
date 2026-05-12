@@ -34,37 +34,39 @@ class DjEdit < Formula
     LAUNCHER
     chmod 0755, bin/"dj-edit"
 
-    # Install the .command wrapper into /Applications (macOS only)
+    # Install the .command wrapper into share (macOS only). Brew runs in a
+    # sandbox and cannot write to /Applications directly — user copies it
+    # there themselves (see caveats).
     if OS.mac? && File.exist?("dj-edit-mac.command")
       share_root.install "dj-edit-mac.command"
-      # Create a launcher in /Applications
-      app_path = "/Applications/dj-edit-mac.command"
-      ohai "Creating #{app_path}"
-      # Use a small launcher script that defers to the installed copy
-      File.write(app_path, <<~APPCMD)
-        #!/usr/bin/env bash
-        exec "#{share_root}/dj-edit-mac.command" "$@"
-      APPCMD
-      chmod 0755, app_path
     end
   end
 
   def caveats
-    <<~EOS
+    msg = <<~EOS
       dj-edit is installed at:
         #{share}/dj-edit/
 
       Try the smoke test:
         dj-edit quickstart --demo
 
-      macOS GUI launcher:
-        open /Applications/dj-edit-mac.command
-
-      First launch will trigger Gatekeeper. Right-click → Open to bypass once.
-
-      See README + docs at:
-        #{share}/dj-edit/README.md
+      Verify the install:
+        dj-edit doctor
     EOS
+
+    if OS.mac?
+      msg += <<~EOS
+
+        To get the double-clickable macOS launcher, copy it into /Applications:
+          cp "#{share}/dj-edit/dj-edit-mac.command" /Applications/
+          chmod +x /Applications/dj-edit-mac.command
+
+        Then double-click /Applications/dj-edit-mac.command in Finder.
+        First launch triggers Gatekeeper — right-click → Open → confirm once.
+      EOS
+    end
+
+    msg
   end
 
   test do
