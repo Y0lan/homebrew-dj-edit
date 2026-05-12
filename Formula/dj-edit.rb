@@ -1,10 +1,10 @@
 class DjEdit < Formula
   desc "Auto-edit DJ-set videos into TikTok-ready cuts (9:16 + 16:9, beat-snapped, virtual-camera reframing)"
   homepage "https://github.com/Y0lan/dj-edit"
-  url "https://github.com/Y0lan/dj-edit/archive/refs/tags/v0.1.0.tar.gz"
-  sha256 "7682ce82b04f17326c1b2ebd597456aa2dfade3bf010c3fd0e062773ff85c067"
+  url "https://github.com/Y0lan/dj-edit/archive/refs/tags/v0.1.1.tar.gz"
+  sha256 "0697f2e5f7bce386a329b4515879637902ddefb36c94c8d31751d1b662773589"
   license "MIT"
-  version "0.1.0"
+  version "0.1.1"
 
   depends_on "ffmpeg"
   depends_on "python@3.11"
